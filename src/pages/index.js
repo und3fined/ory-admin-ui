@@ -2,13 +2,13 @@
  * Home index
  */
 import { Box, Spinner, Text } from '@chakra-ui/core'
-import Layout from 'layouts/default'
 
+import Layout from 'layouts/default'
 import styles from './index.module.css'
 
 export default function MainPage() {
   return (
-    <Layout>
+    <Layout title="ORY Admin">
       <Box className={styles['main-container']} rounded="lg" overflow="hidden ">
         <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
           <Text fontSize="xl">Ory Admin</Text>

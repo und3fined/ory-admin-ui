@@ -1,6 +1,7 @@
 /**
  * Default Layout
  */
+import { Head } from 'next/head'
 import { Stack } from '@chakra-ui/core'
 
 function DefaultLayout({ children }) {
