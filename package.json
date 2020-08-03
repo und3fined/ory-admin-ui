@@ -10,6 +10,10 @@
   "author": "Code Manager <code-manager@toss>",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
+    "date-fns": "^2.15.0",
+    "mobx": "^5.15.4",
+    "mobx-state-tree": "^3.17.2",
     "next": "^9.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
