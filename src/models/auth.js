@@ -1,50 +1,55 @@
-/**
- * Auth
+/*
+ * File: auth.js
+ * Project: ory-admin-ui
+ * File Created: 26 Aug 2020 14:30:16
+ * Author: und3fined (me@und3fined.com)
+ * -----
+ * Last Modified: 26 Aug 2020 14:30:20
+ * Modified By: me@und3fined.com (me@und3fined.com>)
+ * -----
+ * Copyright (c) 2020 und3fined.com
  */
-import { types, getEnv } from 'mobx-state-tree'
-import getUnixTime from 'date-fns/getUnixTime'
+import { types, flow } from 'mobx-state-tree'
+import { sleep } from './helper'
 
-import { Request } from './request'
-import { pingAPI } from '../api'
-
-const requestName = {
-  ping: 'ping',
-  login: 'login',
-  refreshToken: 'refresh_token',
-}
-
-export const Auth = types
-  .model('auth', {
-    id: types.identifier,
-    name: types.string,
-    access_token: types.string,
-    refresh_token: types.string,
-    expired: types.optional(types.number, 0),
+const AuthModel = types
+  .model('Auth', {
+    email: types.optional(types.string, 'ory@und3fined.com'),
+    password: types.optional(types.string, 'und3fined'),
+    expiredAt: types.number,
+    accessToken: types.optional(types.string, ''),
+    locked: types.optional(types.boolean, false),
+    state: types.optional(types.enumeration('State', ['idle', 'running', 'end']), 'idle'),
   })
-  .views((self) => {
-    return {
-      get isLogged() {
-        return self.expired > getUnixTime(new Date())
-      },
-    }
-  })
+  .views((self) => ({
+    get isAuthenicated() {
+      return self.expiredAt > new Date().getTime()
+    },
+  }))
+  .views((self) => ({}))
   .actions((self) => {
     return {
-      ping: flow(function* () {
-        if (getEnv(self).request.processing(requestName.ping)) {
-          return
-        }
+      login: flow(function* (email, password) {
+        self.locked = true
+        self.state = 'running'
+        console.info('Start login...', email, password)
+        yield sleep(2000)
 
-        let req = Request.create({
-          name: requestName.ping,
-          state: 'ready',
-          config: pingAPI(),
-        })
-
-        getEnv(self).request.add(req)
-
-        yield req.exec()
+        self.expiredAt = new Date().getTime() + 30000
+        self.locked = false
+        self.state = 'end'
       }),
+
+      loadInfo: flow(function* () {
+        yield sleep(1000)
+        self.email = 'info@und3fined.com'
+      }),
+
+      currentState() {
+        let current = self.state
+        self.state = 'idle'
+        return current
+      },
     }
   })
 

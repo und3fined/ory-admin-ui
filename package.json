@@ -1,29 +1,65 @@
 {
   "name": "ory-admin-ui",
-  "version": "1.0.0",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "start": "npm run start:react",
+    "start:react": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-scripts eject",
+    "build:css": "postcss src/themes/styles/index.css -o src/themes/styles/tailwind.css",
+    "watch:css": "chokidar 'src/themes/styles/*.css' 'src/components/**/*.css' --ignore src/themes/styles/tailwind.css -c 'npm run build:css'"
   },
-  "repository": "git@github.com:und3fined/ory-admin-ui.git",
-  "author": "Code Manager <code-manager@toss>",
-  "license": "MIT",
+  "eslintConfig": {
+    "extends": "react-app",
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "src"
+          ]
+        }
+      }
+    }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "dependencies": {
-    "axios": "^0.19.2",
-    "date-fns": "^2.15.0",
-    "mobx": "^5.15.4",
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.35",
+    "@emotion/styled": "^10.0.27",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "axios": "^0.20.0",
+    "classnames": "^2.2.6",
+    "emotion-theming": "^10.0.27",
+    "mobx": "^5.15.6",
+    "mobx-react-lite": "^2.1.0",
     "mobx-state-tree": "^3.17.2",
-    "next": "^9.5.1",
+    "navi": "^0.14.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-navi": "^0.14.4",
+    "react-navi-helmet-async": "^0.14.4",
+    "react-scripts": "3.4.3"
   },
   "devDependencies": {
-    "@chakra-ui/core": "^0.8.0",
-    "@emotion/core": "^10.0.28",
-    "@emotion/styled": "^10.0.27",
-    "emotion-theming": "^10.0.27",
-    "postcss-flexbugs-fixes": "^4.2.1",
-    "postcss-preset-env": "^6.7.0"
+    "@types/classnames": "^2.2.10",
+    "autoprefixer": "^9.8.6",
+    "chokidar-cli": "^2.1.0",
+    "postcss-import": "^12.0.1",
+    "react-app-rewired": "^2.1.6"
   }
 }
