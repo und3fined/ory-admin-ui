@@ -12,4 +12,6 @@
 import { withData } from 'navi'
 import { sleep } from '../models/helper'
 
-export default withData(async (req, ctx) => {})
+export default withData(async (req, ctx) => {
+  await sleep(200)
+})

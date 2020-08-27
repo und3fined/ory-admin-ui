@@ -11,6 +11,7 @@
  */
 import React, { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
+import { Link as NaviLink, useNavigation } from 'react-navi'
 import {
   PseudoBox,
   Box,
@@ -24,60 +25,97 @@ import {
   InputRightElement,
   Icon,
   Button,
+  Text,
+  Link,
+  CloseButton,
 } from '@chakra-ui/core'
 
-function LoginForm({ auth }) {
+function LoginForm({ request, history, auth }) {
+  const navigation = useNavigation()
   const [errMsg, setErrMsg] = useState(null)
   const [visiblePassword, setVisiblePassword] = useState(false)
+  const [email, setEmail] = React.useState(auth.email)
+  const [password, setPassword] = React.useState(auth.password)
 
   useEffect(() => {
     if (auth.currentState() === 'end') {
-      setErrMsg('error: something')
+      let next = request.params.next ? decodeURIComponent(request.params.next) : '/dashboard'
+
+      if (auth.isAuthenticated) {
+        setTimeout(() => navigation.navigate(next, { replace: true }), 200)
+      } else {
+        setErrMsg(auth.messageContent)
+      }
     }
-  }, [auth])
+  })
 
   return (
-    <Stack spacing={4}>
-      <Alert status="success" variant="left-accent">
+    <Stack w="100%" spacing={4}>
+      <Alert
+        boxShadow="md"
+        rounded="lg"
+        status={auth.messageType}
+        variant="left-accent"
+        display={errMsg ? '' : 'none'}
+      >
         <AlertIcon />
         {errMsg}
+        <CloseButton
+          onClick={() => setErrMsg(null)}
+          color="gray.700"
+          size="sm"
+          position="absolute"
+          right="8px"
+        />
       </Alert>
-      <Box w="100%" bg="white" p="24px" boxShadow="lg" rounded="lg" borderWith="1px">
+      <Box w="100%" bg="white" p="24px" boxShadow="md" rounded="lg" borderWith="1px">
         <Stack spacing={4}>
           <FormControl isRequired>
             <InputGroup>
               <InputLeftElement children={<Icon name="email" color="gray.300" />} />
-              <Input type="text" variant="filled" placeholder="Email" />
+              <Input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                variant="filled"
+                placeholder="Email"
+                focusBorderColor="blue.300"
+                borderWidth="1px"
+                disabled={auth.locked}
+              />
             </InputGroup>
           </FormControl>
           <FormControl isRequired>
             <InputGroup>
               <InputLeftElement children={<Icon name="lock" color="gray.300" />} />
               <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 type={visiblePassword ? 'text' : 'password'}
                 variant="filled"
                 placeholder="Password"
+                focusBorderColor="blue.300"
                 pr="2.5rem"
+                borderWidth="1px"
+                disabled={auth.locked}
               />
-              <InputRightElement width="2.4rem">
+              <InputRightElement width="2.5rem">
                 <PseudoBox
                   as="button"
                   height="32px"
                   lineHeight="0"
-                  transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
                   px="8px"
                   rounded="2px"
                   fontSize="14px"
                   fontWeight="semibold"
-                  _active={{
-                    transform: 'scale(0.98)',
-                  }}
-                  _focus={{
-                    boxShadow: '0 0 1px 2px rgba(88, 144, 255, .75), 0 1px 1px rgba(0, 0, 0, .15)',
-                  }}
                   onClick={() => setVisiblePassword(!visiblePassword)}
+                  disabled={auth.locked}
                 >
-                  <Icon name={visiblePassword ? 'view-off' : 'view'} color="gray.400" />
+                  <Icon
+                    transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                    name={visiblePassword ? 'view-off' : 'view'}
+                    color="gray.400"
+                  />
                 </PseudoBox>
               </InputRightElement>
             </InputGroup>
@@ -85,12 +123,24 @@ function LoginForm({ auth }) {
           <Button
             isLoading={auth.locked}
             loadingText="Login..."
-            variantColor="teal"
+            variantColor="blue"
             variant="solid"
-            onClick={() => auth.login('ok', '1')}
+            onClick={(e) => {
+              e.preventDefault()
+              auth.login(email, password)
+            }}
           >
             Login
           </Button>
+
+          <Box>
+            <Text textAlign="center" fontSize="sm">
+              Can't access to account?{' '}
+              <Link as={NaviLink} color="blue.300" href="/auth/forgot">
+                Forgot password.
+              </Link>
+            </Text>
+          </Box>
         </Stack>
       </Box>
     </Stack>

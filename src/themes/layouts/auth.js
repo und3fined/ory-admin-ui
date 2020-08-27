@@ -12,7 +12,7 @@
 import React from 'react'
 import { useCurrentRoute } from 'react-navi'
 
-import { Flex, Box, Heading } from '@chakra-ui/core'
+import { Flex, Box, Heading, Text } from '@chakra-ui/core'
 
 export default function AuthLayout({ children }) {
   const route = useCurrentRoute()
@@ -27,10 +27,17 @@ export default function AuthLayout({ children }) {
       justify="center"
     >
       <Box w="sm" verticalAlign="middle">
-        <Heading as="h3" size="md" color="teal.500" textAlign="center" pb="12px">
+        <Heading as="h3" size="md" color="blue.300" textAlign="center" pb="12px">
           Ory Admin UI - {route.title}
         </Heading>
-        <Flex justify="left">{children}</Flex>
+        <Flex width="100%">{children}</Flex>
+        <Text color="gray.400" pt="12px" fontSize="sm" textAlign="center">
+          Made with{' '}
+          <Text as="span" color="red.300">
+            ♥
+          </Text>{' '}
+          Internet
+        </Text>
       </Box>
     </Flex>
   )

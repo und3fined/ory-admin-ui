@@ -11,20 +11,22 @@
  */
 import React from 'react'
 import { withView } from 'navi'
-import { View, useCurrentRoute, useLoadingRoute } from 'react-navi'
+import { View, useCurrentRoute, useLoadingRoute, useNavigation } from 'react-navi'
 import { Spinner } from '@chakra-ui/core'
 
 import Dimmer from '../components/base/Dimmer'
 
-function AuthHandler({ children, history, auth }) {
+const AuthHandler = ({ children, auth }) => {
+  const navigation = useNavigation()
   let route = useCurrentRoute()
   let loadingRoute = useLoadingRoute()
+
   let currentPath = route.url.pathname
   let isAuthPage = currentPath.startsWith('/auth')
 
   if (!auth.isAuthenticated && !isAuthPage) {
     let nextPage = encodeURIComponent(currentPath === '/' ? '/dashboard' : currentPath)
-    return history.replace(`/auth/login?next=${nextPage}`)
+    return navigation.navigate(`/auth/login?next=${nextPage}`, { replace: true })
   }
 
   return (

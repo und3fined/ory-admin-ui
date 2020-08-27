@@ -14,23 +14,23 @@ import { compose, withView, route, mount } from 'navi'
 import { View } from 'react-navi'
 
 import AuthLayout from '@/layouts/auth'
-import LoginPage from 'pages/auth/login'
+import LoginPage from '@/pages/auth/login'
 
 export default compose(
-  withView(() => {
-    return (
-      <AuthLayout>
-        <View />
-      </AuthLayout>
-    )
-  }),
+  withView(() => (
+    <AuthLayout>
+      <View />
+    </AuthLayout>
+  )),
   mount({
     '/login': route({
-      title: 'Login 2',
+      title: 'Login',
       getData: async (request, context) => {
-        // await context.auth.loadInfo()
+        if (context.auth.created === false) {
+          await context.auth.loadInfo()
+        }
       },
-      getView: (request, context) => <LoginPage auth={context.auth} />,
+      getView: (request, context) => <LoginPage request={request} auth={context.auth} />,
     }),
     '/forgot': route({
       title: 'Forgot credentials',

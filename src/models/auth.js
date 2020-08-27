@@ -10,6 +10,8 @@
  * Copyright (c) 2020 und3fined.com
  */
 import { types, flow } from 'mobx-state-tree'
+import { addSeconds, getUnixTime } from 'date-fns'
+
 import { sleep } from './helper'
 
 const AuthModel = types
@@ -20,29 +22,42 @@ const AuthModel = types
     accessToken: types.optional(types.string, ''),
     locked: types.optional(types.boolean, false),
     state: types.optional(types.enumeration('State', ['idle', 'running', 'end']), 'idle'),
+    created: types.optional(types.boolean, false),
+    messageType: types.optional(
+      types.enumeration('State', ['error', 'success', 'warning', 'info']),
+      'info'
+    ),
+    messageContent: types.optional(types.string, ''),
   })
   .views((self) => ({
-    get isAuthenicated() {
-      return self.expiredAt > new Date().getTime()
+    get isAuthenticated() {
+      return true // self.expiredAt > getUnixTime(new Date())
     },
   }))
-  .views((self) => ({}))
   .actions((self) => {
     return {
       login: flow(function* (email, password) {
         self.locked = true
         self.state = 'running'
-        console.info('Start login...', email, password)
-        yield sleep(2000)
+        yield sleep(200)
 
-        self.expiredAt = new Date().getTime() + 30000
-        self.locked = false
+        if (email !== 'ory@und3fined.com' || password !== 'und3fined') {
+          self.messageType = 'error'
+          self.messageContent = 'Credentials is invalid.'
+          self.locked = false
+        } else {
+          self.expiredAt = getUnixTime(addSeconds(new Date(), 30))
+          self.accessToken = '231231231231284738jhsjfhsdjk'
+          self.messageType = 'success'
+          self.messageContent = 'Login is successful.'
+        }
         self.state = 'end'
       }),
 
       loadInfo: flow(function* () {
-        yield sleep(1000)
-        self.email = 'info@und3fined.com'
+        yield sleep(100)
+        self.email = 'ory@und3fined.com'
+        self.created = true
       }),
 
       currentState() {

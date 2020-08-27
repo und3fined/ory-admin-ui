@@ -19,7 +19,10 @@ export function getLocalState() {
 
 export function setLocalState({ auth }) {
   // NOTE: save access token only
-  localStorage.setItem(localStorageKey, JSON.stringify({ auth }))
+  localStorage.setItem(
+    localStorageKey,
+    JSON.stringify({ auth: { expiredAt: auth.expiredAt, accessToken: auth.accessToken } })
+  )
 }
 
 export function sleep(timer) {

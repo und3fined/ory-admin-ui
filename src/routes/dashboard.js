@@ -10,7 +10,23 @@
  * Copyright (c) 2020 und3fined.com
  */
 import React from 'react'
-import { compose, withView, route, mount } from 'navi'
+import { compose, withView, route, mount, withData } from 'navi'
 import { View } from 'react-navi'
 
-export default compose(withView(() => <View />))
+import AppLayout from '@/layouts/app'
+import OverviewPage from '@/pages/dashboard/overview'
+
+export default compose(
+  withView((request, context) => (
+    <AppLayout context={context}>
+      <View />
+    </AppLayout>
+  )),
+  withData(async (req, context) => {}),
+  mount({
+    '/': route({
+      title: 'Dashboard',
+      getView: (request, context) => <OverviewPage request={request} store={context.store} />,
+    }),
+  })
+)
