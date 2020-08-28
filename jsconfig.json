@@ -8,7 +8,8 @@
       "@/layouts/*": ["themes/layouts/*"],
       "@/themes/*": ["themes/*"],
       "@/pages/*": ["pages/*"],
-      "@/routes/*": ["routes/*"]
+      "@/routes/*": ["routes/*"],
+      "@/models/*": ["models/*"]
     },
     "resolveJsonModule": true,
     "isolatedModules": true

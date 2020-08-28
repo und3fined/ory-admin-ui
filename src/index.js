@@ -30,14 +30,14 @@ function renderApp(App, store) {
 // initial render
 renderApp(App, store)
 
-if (module.hot) {
-  module.hot.accept(['./models/ory'], () => {
-    // Store definition changed, recreate a new one from old state
-    renderApp(App, rehydrate(store, true))
-  })
+// if (module.hot) {
+//   module.hot.accept(['./models/ory'], () => {
+//     // Store definition changed, recreate a new one from old state
+//     renderApp(App, rehydrate(store, true))
+//   })
 
-  module.hot.accept('./App', () => {
-    const NextApp = require('./App').default
-    renderApp(NextApp, store)
-  })
-}
+//   module.hot.accept('./App', () => {
+//     const NextApp = require('./App').default
+//     renderApp(NextApp, store)
+//   })
+// }

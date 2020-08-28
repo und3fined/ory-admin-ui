@@ -9,20 +9,14 @@
  * -----
  * Copyright (c) 2020 und3fined.com
  */
-import { lazy, compose, mount, redirect } from 'navi'
+import { compose } from 'navi'
 
-import AuthHandler from '../helpers/auth-handler'
-import InitialData from '../helpers/initial-data'
-
-const config = mount({
-  '/auth': lazy(() => import('./auth')),
-  '/dashboard': lazy(() => import('./dashboard')),
-  '/': redirect(`/auth/login?next=${encodeURIComponent('/dashboard')}`),
-})
+import AppHandler from '@/routes/utils/handler'
+import AppRoutes from '@/routes/config'
 
 const routeConfig = []
-routeConfig.push(InitialData)
-routeConfig.push(AuthHandler)
-routeConfig.push(config)
+
+routeConfig.push(AppHandler)
+routeConfig.push(AppRoutes)
 
 export default compose(...routeConfig)

@@ -15,13 +15,14 @@ const resolve = (dir) => path.resolve(__dirname, dir)
 
 module.exports = function override(config, env) {
   config.resolve.alias = Object.assign(config.resolve.alias, {
-    '@/base/*': resolve('src/components/base'),
+    '@/base': resolve('src/components/base'),
     '@/icons': resolve('src/components/icons'),
     '@/components': resolve('src/components'),
     '@/layouts': resolve('src/themes/layouts'),
     '@/themes': resolve('src/themes'),
     '@/pages': resolve('src/pages'),
     '@/routes': resolve('src/routes'),
+    '@/models': resolve('src/models'),
   })
 
   return config

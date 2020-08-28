@@ -30,13 +30,14 @@ import {
   CloseButton,
 } from '@chakra-ui/core'
 
-function LoginForm({ request, history, auth }) {
+function LoginForm({ request, auth }) {
   const navigation = useNavigation()
   const [errMsg, setErrMsg] = useState(null)
   const [visiblePassword, setVisiblePassword] = useState(false)
   const [email, setEmail] = React.useState(auth.email)
   const [password, setPassword] = React.useState(auth.password)
 
+  // eslint-disable-next-line
   useEffect(() => {
     if (auth.currentState() === 'end') {
       let next = request.params.next ? decodeURIComponent(request.params.next) : '/dashboard'
@@ -47,6 +48,8 @@ function LoginForm({ request, history, auth }) {
         setErrMsg(auth.messageContent)
       }
     }
+
+    return () => {}
   })
 
   return (

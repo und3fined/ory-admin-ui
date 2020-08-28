@@ -11,11 +11,11 @@
  */
 import React, { Suspense } from 'react'
 import { Router, View } from 'react-navi'
+import { observer } from 'mobx-react-lite'
 import HelmetProvider from 'react-navi-helmet-async'
 import { ThemeProvider, CSSReset } from '@chakra-ui/core'
 
 import oryTheme from '@/themes/config'
-
 import routes from '@/routes'
 
 function App({ store }) {
@@ -35,4 +35,4 @@ function App({ store }) {
   )
 }
 
-export default App
+export default observer(App)

@@ -31,11 +31,19 @@ const AuthModel = types
   })
   .views((self) => ({
     get isAuthenticated() {
-      return true // self.expiredAt > getUnixTime(new Date())
+      return self.expiredAt > getUnixTime(new Date())
     },
   }))
   .actions((self) => {
     return {
+      initial: flow(function* () {
+        self.state = 'running'
+        yield sleep(1000)
+        self.email = 'ory@und3fined.com'
+        self.created = true
+        self.state = 'end'
+      }),
+
       login: flow(function* (email, password) {
         self.locked = true
         self.state = 'running'
@@ -54,10 +62,15 @@ const AuthModel = types
         self.state = 'end'
       }),
 
-      loadInfo: flow(function* () {
-        yield sleep(100)
-        self.email = 'ory@und3fined.com'
-        self.created = true
+      logout: flow(function* () {
+        self.locked = true
+        self.state = 'running'
+        yield sleep(200)
+
+        self.expiredAt = -1
+        self.accessToken = ''
+        self.locked = false
+        self.state = 'end'
       }),
 
       currentState() {

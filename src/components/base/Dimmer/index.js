@@ -15,7 +15,18 @@ import { Box } from '@chakra-ui/core'
 export default ({ active = false, children }) => {
   if (active) {
     return (
-      <Box bg="gray.200" pos="fixed" w="100%" h="100%" zIndex="9999" top="0" left="0">
+      <Box
+        bg="gray.200"
+        pos="fixed"
+        w="100%"
+        h="100%"
+        zIndex="9999"
+        top="0"
+        left="0"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
         {children}
       </Box>
     )

@@ -12,9 +12,9 @@
 import React from 'react'
 import { useCurrentRoute } from 'react-navi'
 
-import { Flex, Box, Heading, Text } from '@chakra-ui/core'
+import { Flex, Box, Heading, Text, Skeleton, Stack } from '@chakra-ui/core'
 
-export default function AuthLayout({ children }) {
+function AuthLayout({ children, context }) {
   const route = useCurrentRoute()
 
   return (
@@ -30,7 +30,22 @@ export default function AuthLayout({ children }) {
         <Heading as="h3" size="md" color="blue.300" textAlign="center" pb="12px">
           Ory Admin UI - {route.title}
         </Heading>
-        <Flex width="100%">{children}</Flex>
+        <Flex width="100%" direction="column">
+          <Stack
+            w="100%"
+            spacing={3}
+            p="24px"
+            bg="white"
+            rounded="lg"
+            display={context.auth.created ? 'none' : ''}
+          >
+            <Skeleton width="100%" height="42px" isLoaded={context.auth.created} />
+            <Skeleton width="100%" height="42px" isLoaded={context.auth.created} />
+            <Skeleton width="100%" height="42px" isLoaded={context.auth.created} />
+            <Skeleton width="100%" height="18px" isLoaded={context.auth.created} />
+          </Stack>
+          {context.auth.created ? children : null}
+        </Flex>
         <Text color="gray.400" pt="12px" fontSize="sm" textAlign="center">
           Made with{' '}
           <Text as="span" color="red.300">
@@ -42,3 +57,5 @@ export default function AuthLayout({ children }) {
     </Flex>
   )
 }
+
+export default AuthLayout
