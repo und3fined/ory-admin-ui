@@ -28,7 +28,7 @@ function AuthLayout({ children, context }) {
     >
       <Box w="sm" verticalAlign="middle">
         <Heading as="h3" size="md" color="blue.300" textAlign="center" pb="12px">
-          Ory Admin UI - {route.title}
+          {route.data.navTitle}
         </Heading>
         <Flex width="100%" direction="column">
           <Stack

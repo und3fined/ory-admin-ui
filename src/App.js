@@ -19,12 +19,14 @@ import oryTheme from '@/themes/config'
 import routes from '@/routes'
 
 function App({ store }) {
+  const { auth, app, ...otherStore } = store
+
   return (
     // <StrictMode>
     <ThemeProvider theme={oryTheme}>
       <CSSReset />
       <HelmetProvider>
-        <Router routes={routes} context={{ store, auth: store.auth }}>
+        <Router routes={routes} context={{ store: otherStore, auth, app }}>
           <Suspense fallback={null}>
             <View />
           </Suspense>

@@ -12,21 +12,25 @@
 import React from 'react'
 import { compose, withView, mount } from 'navi'
 import { View } from 'react-navi'
-import route from '@/routes/utils/route'
+import { page } from '@x/navi'
 
 import AppLayout from '@/layouts/app'
 import OverviewPage from '@/pages/dashboard/overview'
+import sleep from 'utils/sleep'
 
 export default compose(
-  withView((request, context) => (
-    <AppLayout context={context}>
+  withView(() => (
+    <AppLayout>
       <View />
     </AppLayout>
   )),
   mount({
-    '/': route({
-      title: 'Dashboard',
+    '/': page({
+      title: 'Dashboard.',
       getView: (request, context) => <OverviewPage request={request} store={context.store} />,
+      initialData: async () => {
+        await sleep(200)
+      },
     }),
   })
 )

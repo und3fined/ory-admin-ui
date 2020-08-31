@@ -9,14 +9,14 @@
  * -----
  * Copyright (c) 2020 und3fined.com
  */
-import { compose } from 'navi'
+import { withContext } from 'navi'
 
-import AppHandler from '@/routes/utils/handler'
-import AppRoutes from '@/routes/config'
+import AppRoutes from './routes'
 
-const routeConfig = []
-
-routeConfig.push(AppHandler)
-routeConfig.push(AppRoutes)
-
-export default compose(...routeConfig)
+export default withContext(
+  (req, context) => ({
+    oryRoot: req.mountpath || '/',
+    ...context,
+  }),
+  AppRoutes
+)

@@ -23,6 +23,7 @@ module.exports = function override(config, env) {
     '@/pages': resolve('src/pages'),
     '@/routes': resolve('src/routes'),
     '@/models': resolve('src/models'),
+    '@x': resolve('src/x'),
   })
 
   return config

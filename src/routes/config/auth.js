@@ -13,37 +13,59 @@ import React from 'react'
 import { compose, withView, withData, mount } from 'navi'
 import { View } from 'react-navi'
 
-import route from '@/routes/utils/route'
+import { page } from '@x/navi'
+
 import AuthLayout from '@/layouts/auth'
 import LoginPage from '@/pages/auth/login'
-import PrepairingPage, { prepairingData } from '@/pages/auth/prepairing'
+
+import ForgotPage from '@/pages/auth/forgot'
+import ResetPage, { initialData } from '@/pages/auth/reset'
+
+function validateAuth({ request, context }) {}
 
 export default compose(
-  withView((request, context) => (
-    <AuthLayout request={request} context={context}>
-      <View />
-    </AuthLayout>
-  )),
-  withData(async (request, context) => {
-    if (context.auth.created === false && context.auth.state === 'idle') {
-      await context.auth.initial('auth')
+  withView((request, context) => {
+    return (
+      <AuthLayout request={request} context={context}>
+        <View />
+      </AuthLayout>
+    )
+  }),
+  withData(async (request, { app, auth }) => {
+    if (app.initialized && auth.created === false && auth.state === 'idle') {
+      await auth.initial()
     }
   }),
   mount({
-    '/prepair': route({
-      title: 'Prepairing...',
-      getView: (request, context) => (
-        <PrepairingPage request={request} context={context} auth={context.auth} />
-      ),
-      initialData: prepairingData,
+    '/login': page({
+      info: {
+        title: 'Login',
+        description: 'Please login for access to system',
+      },
+      getView: (req, { auth }) => <LoginPage request={req} auth={auth} />,
+      initialData: validateAuth,
     }),
-    '/login': route({
-      title: 'Login',
-      getView: (request, context) => <LoginPage request={request} auth={context.auth} />,
+    '/register': page({
+      info: {
+        title: 'Login',
+        description: 'Please login for access to system',
+      },
+      getView: (req, { auth }) => <LoginPage request={req} auth={auth} />,
+      initialData: validateAuth,
     }),
-    '/forgot': route({
-      title: 'Forgot credentials',
-      getView: () => <div>Forgot page</div>,
+    '/forgot': page({
+      info: {
+        title: 'Forgot credentials',
+      },
+      getView: (req, { auth }) => <ForgotPage request={req} auth={auth} />,
+      initialData: validateAuth,
+    }),
+    '/reset': page({
+      info: {
+        title: 'Reset credentials',
+      },
+      getView: (req, { auth }) => <ResetPage request={req} auth={auth} />,
+      initialData: initialData,
     }),
   })
 )

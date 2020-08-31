@@ -15,6 +15,7 @@ import { getLocalState, setLocalState } from './helper'
 
 // models
 import Api from './api'
+import App from './app'
 import Auth from './auth'
 
 export const OryStoreContext = createContext()
@@ -22,6 +23,7 @@ const initialState = getLocalState() || { auth: { expiredAt: -1 } }
 
 const Provider = OryStoreContext.Provider
 const OryStore = types.model('OryStore', {
+  app: types.optional(App, {}),
   api: types.optional(Api, {}),
   auth: Auth,
 })

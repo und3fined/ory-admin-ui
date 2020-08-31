@@ -9,7 +9,8 @@
       "@/themes/*": ["themes/*"],
       "@/pages/*": ["pages/*"],
       "@/routes/*": ["routes/*"],
-      "@/models/*": ["models/*"]
+      "@/models/*": ["models/*"],
+      "@x/*": ["x/*"]
     },
     "resolveJsonModule": true,
     "isolatedModules": true

@@ -11,7 +11,7 @@
  */
 
 export function getNextPage(params, nextDefault = '/dashboard') {
-  return params.next ? decodeURIComponent(params.next) : nextDefault
+  return params.next ? decodeURIComponent(params.next) : decodeURIComponent(nextDefault)
 }
 
 export function generateNextPage(url) {

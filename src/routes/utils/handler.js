@@ -12,35 +12,18 @@
 import React from 'react'
 import { redirect } from 'navi'
 import { withView } from 'navi'
-import { View, useCurrentRoute, useLoadingRoute } from 'react-navi'
-import { Spinner } from '@chakra-ui/core'
+import { View } from 'react-navi'
 
-import Dimmer from '@/base/Dimmer'
+import { generateNextPage } from 'utils/helper'
 
-const AppHandler = ({ children, auth }) => {
-  let route = useCurrentRoute()
-  let loadingRoute = useLoadingRoute()
-
-  let currentPath = route.url.pathname
+export default withView((request, context) => {
+  let currentPath = request.originalUrl
   let isAuthPage = currentPath.startsWith('/auth')
 
-  if (!auth.isAuthenticated && !isAuthPage) {
-    let nextPage = encodeURIComponent(currentPath === '/' ? '/dashboard' : currentPath)
+  if (!context.auth.isAuthenticated && !isAuthPage) {
+    let nextPage = generateNextPage(currentPath === '/' ? '/dashboard' : currentPath)
     return redirect(`/auth/login?next=${nextPage}`, { replace: true })
   }
 
-  return (
-    <>
-      <Dimmer active={!!loadingRoute}>
-        <Spinner label={'Prepairing...'} />
-      </Dimmer>
-      {children}
-    </>
-  )
-}
-
-export default withView((req, context) => (
-  <AppHandler auth={context.auth}>
-    <View />
-  </AppHandler>
-))
+  return <View />
+})

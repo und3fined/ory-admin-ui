@@ -13,18 +13,13 @@ import React from 'react'
 import { render } from 'react-dom'
 
 import App from './App'
-import { Provider, initialState, rehydrate } from './models/ory'
+import { initialState, rehydrate } from './models/ory'
 
 const store = rehydrate(initialState)
 const rootEl = document.getElementById('root')
 
 function renderApp(App, store) {
-  render(
-    <Provider value={store}>
-      <App store={store} />
-    </Provider>,
-    rootEl
-  )
+  render(<App store={store} />, rootEl)
 }
 
 // initial render

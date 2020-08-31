@@ -11,8 +11,8 @@
  */
 import React from 'react'
 
-export default ({ store }) => (
+export default ({ auth }) => (
   <div>
-    Overview <button onClick={() => store.auth.logout()}>Logout</button>
+    Overview <button onClick={() => auth.logout()}>Logout</button>
   </div>
 )

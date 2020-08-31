@@ -10,7 +10,6 @@
  * Copyright (c) 2020 und3fined.com
  */
 import React from 'react'
-import { useLoadingRoute } from 'react-navi'
 import {
   Flex,
   Box,
@@ -20,34 +19,21 @@ import {
   AccordionHeader,
   AccordionPanel,
   AccordionIcon,
-  Spinner,
   Stack,
 } from '@chakra-ui/core'
 
-import Dimmer from '@/base/Dimmer'
-
 export default function AppLayout({ children }) {
-  let loadingRoute = useLoadingRoute()
-
   return (
     <Flex height="100vh" width="100vw" bg="gray.100" overflow="hidden" fontSize="sm">
-      <Dimmer active={!!loadingRoute}>
-        <Spinner label={'Prepairing...'} />
-      </Dimmer>
       <Flex
         className="sidebar"
-        width={[
-          '0%', // base
-          '0%', // 480px upwards
-          '25%', // 768px upwards
-          '15%', // 992px upwards
-        ]}
+        width={['0%', '0%', '25%', '15%']}
         bg="gray.700"
         color="white"
         direction="column"
       >
         <Box flexAlign="center" h="64px" bg="blue.600" p="8px">
-          Ory Admin
+          Admin UI
         </Box>
         <Box h="calc(100vh - 64px)" overflowY="auto">
           <Accordion allowMultiple>
@@ -90,7 +76,7 @@ export default function AppLayout({ children }) {
       <Flex className="ory-app" flex={1}>
         <Stack w="100%" h="100%" spacing={3}>
           <Box flexAlign="center" h="64px" bg="blue.600" p="8px">
-            Ory Admin
+            Admin UI
           </Box>
           <Box p={5}>{children}</Box>
         </Stack>
