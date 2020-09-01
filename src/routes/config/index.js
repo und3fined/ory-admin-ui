@@ -15,5 +15,7 @@ export default mount({
   '/prepair': lazy(() => import('./prepair')),
   '/auth': lazy(() => import('./auth')),
   '/dashboard': lazy(() => import('./dashboard')),
+  '/users': lazy(() => import('./user')),
+  '/about': lazy(() => import('./about')),
   '/': redirect('/prepair'),
 })

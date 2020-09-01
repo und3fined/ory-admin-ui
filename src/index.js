@@ -15,6 +15,8 @@ import { render } from 'react-dom'
 import App from './App'
 import { initialState, rehydrate } from './models/ory'
 
+import './index.css'
+
 const store = rehydrate(initialState)
 const rootEl = document.getElementById('root')
 

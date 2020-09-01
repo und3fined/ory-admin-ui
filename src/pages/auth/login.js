@@ -137,11 +137,16 @@ function LoginForm({ request, auth }) {
           </Button>
 
           <Box>
-            <Text textAlign="center" fontSize="sm">
+            <Text textAlign="center" fontSize="sm" color="gray.600">
               Can't access to account?{' '}
               <Link as={NaviLink} color="blue.300" href="/auth/forgot">
                 Forgot password.
               </Link>
+            </Text>
+          </Box>
+          <Box>
+            <Text textAlign="center" fontSize="xs" color="gray.600">
+              Use default account for access as <i>Super Administrator</i>
             </Text>
           </Box>
         </Stack>

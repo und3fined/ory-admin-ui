@@ -26,18 +26,27 @@ export default compose(
   )),
   mount({
     '/': redirect('/dashboard/overview'),
-    '/overview': page({
+    '/list': page({
       info: {
-        title: 'Overview',
+        title: 'List user',
       },
       getView: (request, context) => <OverviewPage request={request} store={context.store} />,
       initialData: async () => {
         // await sleep(20)
       },
     }),
-    '/monitor': page({
+    '/active': page({
       info: {
-        title: 'Monitor',
+        title: 'Active user',
+      },
+      getView: (request, context) => <MonitorPage request={request} store={context.store} />,
+      initialData: async () => {
+        // await sleep(20)
+      },
+    }),
+    '/trash': page({
+      info: {
+        title: 'Trash',
       },
       getView: (request, context) => <MonitorPage request={request} store={context.store} />,
       initialData: async () => {

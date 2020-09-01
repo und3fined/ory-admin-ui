@@ -17,7 +17,7 @@ import { page } from '@x/navi'
 
 import AuthLayout from '@/layouts/auth'
 import LoginPage from '@/pages/auth/login'
-
+import RegisterPage from '@/pages/auth/register'
 import ForgotPage from '@/pages/auth/forgot'
 import ResetPage, { initialData } from '@/pages/auth/reset'
 
@@ -47,10 +47,10 @@ export default compose(
     }),
     '/register': page({
       info: {
-        title: 'Login',
-        description: 'Please login for access to system',
+        title: 'Register',
+        description: 'Create a new customer',
       },
-      getView: (req, { auth }) => <LoginPage request={req} auth={auth} />,
+      getView: (req, { auth }) => <RegisterPage request={req} auth={auth} />,
       initialData: validateAuth,
     }),
     '/forgot': page({

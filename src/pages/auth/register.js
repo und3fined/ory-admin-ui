@@ -1,30 +1,19 @@
 /*
- * File: forgot.js
+ * File: register.js
  * Project: ory-admin-ui
- * File Created: 31 Aug 2020 15:43:12
+ * File Created: 01 Sep 2020 13:58:41
  * Author: und3fined (me@und3fined.com)
  * -----
- * Last Modified: 31 Aug 2020 15:46:40
+ * Last Modified: 01 Sep 2020 13:58:56
  * Modified By: me@und3fined.com (me@und3fined.com>)
  * -----
  * Copyright (c) 2020 und3fined.com
  */
-/*
- * File: reset.js
- * Project: ory-admin-ui
- * File Created: 31 Aug 2020 15:45:31
- * Author: und3fined (me@und3fined.com)
- * -----
- * Last Modified: 31 Aug 2020 15:45:33
- * Modified By: me@und3fined.com (me@und3fined.com>)
- * -----
- * Copyright (c) 2020 und3fined.com
- */
-
 import React, { useState, useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { Link as NaviLink, useNavigation } from 'react-navi'
 import {
+  PseudoBox,
   Box,
   Alert,
   AlertIcon,
@@ -33,6 +22,7 @@ import {
   Stack,
   InputGroup,
   InputLeftElement,
+  InputRightElement,
   Icon,
   Button,
   Text,
@@ -40,11 +30,12 @@ import {
   CloseButton,
 } from '@chakra-ui/core'
 
-function ForgotForm({ request, auth }) {
+function LoginForm({ request, auth }) {
   const navigation = useNavigation()
   const [errMsg, setErrMsg] = useState(null)
+  const [visiblePassword, setVisiblePassword] = useState(false)
   const [email, setEmail] = React.useState(auth.email)
-  const [password] = React.useState(auth.password)
+  const [password, setPassword] = React.useState(auth.password)
 
   // eslint-disable-next-line
   useEffect(() => {
@@ -82,9 +73,6 @@ function ForgotForm({ request, auth }) {
       </Alert>
       <Box w="100%" bg="white" p="24px" boxShadow="md" rounded="lg" borderWith="1px">
         <Stack spacing={4}>
-          <Text fontSize="sm" color="gray.700">
-            We will send you an email with instructions for regenerating your password.
-          </Text>
           <FormControl isRequired>
             <InputGroup>
               <InputLeftElement children={<Icon name="email" color="gray.300" />} />
@@ -100,9 +88,44 @@ function ForgotForm({ request, auth }) {
               />
             </InputGroup>
           </FormControl>
+          <FormControl isRequired>
+            <InputGroup>
+              <InputLeftElement children={<Icon name="lock" color="gray.300" />} />
+              <Input
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type={visiblePassword ? 'text' : 'password'}
+                variant="filled"
+                placeholder="Password"
+                focusBorderColor="blue.300"
+                pr="2.5rem"
+                borderWidth="1px"
+                disabled={auth.locked}
+              />
+              <InputRightElement width="2.5rem">
+                <PseudoBox
+                  as="button"
+                  height="32px"
+                  lineHeight="0"
+                  px="8px"
+                  rounded="2px"
+                  fontSize="14px"
+                  fontWeight="semibold"
+                  onClick={() => setVisiblePassword(!visiblePassword)}
+                  disabled={auth.locked}
+                >
+                  <Icon
+                    transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
+                    name={visiblePassword ? 'view-off' : 'view'}
+                    color="gray.400"
+                  />
+                </PseudoBox>
+              </InputRightElement>
+            </InputGroup>
+          </FormControl>
           <Button
             isLoading={auth.locked}
-            loadingText="Email sending..."
+            loadingText="Login..."
             variantColor="blue"
             variant="solid"
             onClick={(e) => {
@@ -110,11 +133,11 @@ function ForgotForm({ request, auth }) {
               auth.login(email, password)
             }}
           >
-            Confirm
+            Login
           </Button>
 
           <Box>
-            <Text textAlign="center" fontSize="sm" color="gray.700">
+            <Text textAlign="center" fontSize="sm">
               Can't access to account?{' '}
               <Link as={NaviLink} color="blue.300" href="/auth/forgot">
                 Forgot password.
@@ -127,4 +150,4 @@ function ForgotForm({ request, auth }) {
   )
 }
 
-export default observer(ForgotForm)
+export default observer(LoginForm)
